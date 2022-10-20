@@ -47,6 +47,67 @@ print(books[0].chapters[0].content) # on search book chapters have to load first
 print(len(books)) # 10
 ```
 
+### Create Users Book List
+```python
+#First login to perform actions on your book list
+from wattpad_scraper.utils import ReadingList
+
+readingList = ReadingList()
+
+readingList.create_reading_list("Super Fly")
+```
+
+### Get Users Book List
+Gets the Books in a reading list
+```python
+from wattpad_scraper.utils import ReadingList
+
+readingList = ReadingList()
+
+# By default without passsing any arguement it returns all your reading lists 
+readingList.get_reading_list()
+
+#Get your reading list by it's title
+readingList.get_reading_list(title="Super Fly")
+
+# Get all users reading list
+readingList.get_reading_list(username="Ghost_Lord")
+
+#Get the reading list of a user by their title
+readingList.get_reading_list(title="GEMS", username="Ghost_Lord")
+```
+
+
+### Delete Reading List
+```python
+from wattpad_scraper.utils import ReadingList
+
+readingList = ReadingList()
+
+readingList.delete_reading_list("Super Fly")
+```
+
+
+### Add a book to a reading list
+```python
+from wattpad_scraper.utils import ReadingList
+
+readingList = ReadingList()
+
+readingList.add_to_reading_list(urlOfBook="https://www.wattpad.com/story/116064909-around-the-world-in-80-days-completed", titleOfReadingList="Hype")
+```
+
+### Get Authors Book List
+```python
+from wattpad_scraper.utils import ReadingList
+
+readingList = ReadingList()
+
+readingList.author_book_list("amberkbryant")
+
+```
+
+
 ### Convert Book to Epub
 ```python
 from wattpad_scraper import Wattpad as wt

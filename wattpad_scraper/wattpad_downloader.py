@@ -1,7 +1,7 @@
 from typing import List
 from bs4 import BeautifulSoup
 from wattpad_scraper.models import Author, Book, Chapter, Status
-from wattpad_scraper.utils import get,Log
+from wattpad_scraper.utils import get, Log
 from urllib.parse import quote
 import os
 

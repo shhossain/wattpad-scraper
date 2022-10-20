@@ -23,8 +23,7 @@ import os
 import pickle
 import json
 
-
-class Cookie():
+class Cookie:
     """Parse Cookie File For Request"""
     def __init__(self, file):
         super(Cookie, self).__init__()
@@ -58,6 +57,7 @@ if not os.path.exists(temp_dir_path):
 res_path = os.path.join(temp_dir_path, "response_memory.pickle")
 session_path = os.path.join(temp_dir_path, "session.pickle")
 
+
 def store_response():
     # store response memory in pickle file
     with open(os.path.join(temp_dir_path, "response_memory.pickle"), "wb") as f:
@@ -71,7 +71,6 @@ def load_response():
     else:
         response_memory = {}
     return response_memory
-
 
 def login(username,password):
     login_endpoint  ="https://www.wattpad.com/login?nextUrl=%2Fhome"
@@ -88,28 +87,28 @@ def cookie_login(file):
     login_endpoint = "https://www.wattpad.com/login"
     session.cookies.jar = cookie_jar
     session.follow_redirects = True
-    session.post(login_endpoint,headers=headers)
+    response = session.post(login_endpoint,headers=headers)
+    data = get_user_details(response.text)
+    os.environ['WATTPAD_USERNAME'] = data['username']
 
-
-
-
-
+os.environ['USER_LOGGED_IN'] = ''
 
 headers = headers.generate()
 response_memory = load_response()
 
 
 session = httpx.Client(headers=headers)
-USER_LOGGED_IN = [False]
 
-
-def get(url):
-    if not USER_LOGGED_IN[0]:
+def user_login():
+    if not os.environ['USER_LOGGED_IN']:
         if "WATTPAD_USERNAME" in os.environ and "WATTPAD_PASSWORD" in os.environ:
             login(os.environ['WATTPAD_USERNAME'],os.environ['WATTPAD_PASSWORD'])
         elif "WATTPAD_COOKIE_FILE" in os.environ:
             cookie_login(os.environ['WATTPAD_COOKIE_FILE'])
-        USER_LOGGED_IN[0] = True
+        os.environ['USER_LOGGED_IN'] = 'True'
+
+def get(url):
+    user_login()
 
     if url not in response_memory:
         response_memory[url] = session.get(url)
