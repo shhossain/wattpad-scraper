@@ -1,4 +1,4 @@
 bs4==0.0.1
-EbookLib==0.17.1
+EbookLib==0.18
 fake-headers==1.0.2
 httpx==0.23.1
